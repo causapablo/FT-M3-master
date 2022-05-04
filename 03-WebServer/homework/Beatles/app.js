@@ -22,3 +22,29 @@ var beatles=[{
   profilePic:"http://cp91279.biography.com/BIO_Bio-Shorts_0_Ringo-Starr_SF_HD_768x432-16x9.jpg"
 }
 ]
+var names = beatles.map(obj=>{
+  var nombre = '/api/'+obj.name.split(' ').join('%20').toLowerCase();
+  return nombre;
+})
+
+http.createServer((request,response)=>{
+  let uri = request.url.toLowerCase();
+  if(uri==='/'){
+    response.writeHead(200,{'Content-Type': 'text/html'});
+    let html = fs.readFileSync(__dirname+'/index.html');
+    response.end(html);
+
+  }else if(uri==='/api'){
+    response.writeHead(202,{'Content-Type': 'application/json'});
+    response.end(JSON.stringify(beatles));
+  }else if(names.includes(uri)){
+    var beatle = beatles[names.indexOf(uri)]
+    response.writeHead(200,{'Content-Type':'application/json'});
+    response.end(JSON.stringify(beatle));
+
+  }else{
+    response.writeHead(404, { 'Content-Type':'text/html' });
+    response.end('Error 404: Not Found');
+    console.log(request)
+  }
+}).listen(1337, '127.0.0.1');
