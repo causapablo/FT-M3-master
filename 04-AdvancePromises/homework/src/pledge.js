@@ -3,7 +3,27 @@
 Promises Workshop: construye la libreria de ES6 promises, pledge.js
 ----------------------------------------------------------------*/
 // // TU CÓDIGO AQUÍ:
-
+//El executor representa el callback function(resolve,reject){...}
+    
+function $Promise(executor){
+    if(typeof executor!=='function') throw new TypeError("The executor is not a function");
+    this._state = 'pending';
+    this._value; 
+    executor(this._internalResolve.bind(this), this._internalReject.bind(this));
+    
+}
+$Promise.prototype._internalResolve = function(value){
+    if(this._state==='pending'){
+        this._state = 'fulfilled';
+        this._value = value;
+    }
+}
+$Promise.prototype._internalReject = function(reason){
+    if(this._state==='pending'){
+        this._state = 'rejected';
+        this._value = reason;
+    }
+}
 
 
 module.exports = $Promise;
