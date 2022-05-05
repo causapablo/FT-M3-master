@@ -23,28 +23,59 @@ var beatles=[{
 }
 ]
 var names = beatles.map(obj=>{
-  var nombre = '/api/'+obj.name.split(' ').join('%20').toLowerCase();
-  return nombre;
+  var name = '/api/'+encodeURI(obj.name).toLowerCase();
+  return name;
 })
 
 http.createServer((request,response)=>{
   let uri = request.url.toLowerCase();
+  //lleva al home.
   if(uri==='/'){
     response.writeHead(200,{'Content-Type': 'text/html'});
     let html = fs.readFileSync(__dirname+'/index.html');
     response.end(html);
-
-  }else if(uri==='/api'){
+    
+  }else if(uri==='/api'){//devuelve toda la info en un arreglo
     response.writeHead(202,{'Content-Type': 'application/json'});
     response.end(JSON.stringify(beatles));
-  }else if(names.includes(uri)){
-    var beatle = beatles[names.indexOf(uri)]
-    response.writeHead(200,{'Content-Type':'application/json'});
-    response.end(JSON.stringify(beatle));
 
-  }else{
+  }else if(names.includes(uri)){//Verifica si la uri 
+    var beatle = beatles[names.indexOf(uri)]
+    console.log(beatle)
+    response.writeHead(200,{'Content-Type':'text/html'});
+    let template = fs.readFileSync(__dirname+'/beatle.html','utf-8');
+    //ahora reemplazamos los valores de las variables del template.
+    template= template.replace(/{name}/g,beatle.name);//Usamos una RegEx para que reemplece en todos los tags con esa variable, no solo en la primera que encuentra.
+    template = template.replace('{birthdate}', beatle.birthdate);
+    template = template.replace('{profilePic}', beatle.profilePic);
+    response.end(template);
+  }else{//devuelve error si no encuentra nada. 
     response.writeHead(404, { 'Content-Type':'text/html' });
     response.end('Error 404: Not Found');
     console.log(request)
   }
+  /* let findBeatle = request.url.split('/').pop();
+  let foundBeatle = beatles.find(b=>findBeatle===encodeURI(b.name));
+  if(foundBeatle){
+    response.writeHead(200,{'Content-Type':'text/html'});
+    let template = fs.readFileSync(__dirname+'/beatle.html','utf-8');
+    //ahora reemplazamos los valores de las variables del template.
+    template= template.replace(/'{name}'/g,foundBeatle.name);//Usamos una RegEx para que reemplece en todos los tags con esa variable, no solo en la primera que encuentra.
+    template = template.replace('{birthdate}', foundBeatle.birthdate);
+    template = template.replace('{profilePic}', foundBeatle.profilePic);
+    response.end(template);
+  } */
+  /* if(names.includes(uri)){
+    var beatle = beatles[names.indexOf(uri)]
+    console.log(beatle)
+    response.writeHead(200,{'Content-Type':'text/html'});
+    let template = fs.readFileSync(__dirname+'/beatle.html','utf-8');
+    //ahora reemplazamos los valores de las variables del template.
+    template= template.replace(/'{name}'/g,beatle.name);//Usamos una RegEx para que reemplece en todos los tags con esa variable, no solo en la primera que encuentra.
+    template = template.replace('{birthdate}', beatle.birthdate);
+    template = template.replace('{profilePic}', beatle.profilePic);
+    response.end(template);
+  } */
+    
+  
 }).listen(1337, '127.0.0.1');
