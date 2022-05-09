@@ -2,7 +2,7 @@ const instructores = ['Franco', 'Toni', 'Martu', 'Diego'];
 
 const delay = 1000;
 
-async function henryAwait() {
+/* async function henryAwait() {
   console.log("¿Quienes son los intstructores de Henry?");
   for (let i = 0; i < instructores.length; i++) {
     const instructor = await new Promise(resolve => setTimeout(
@@ -15,7 +15,7 @@ async function henryAwait() {
   console.log("Gracias vuelvan pronto");
 }
 
-henryAwait();
+henryAwait(); */
 
 // Alternative with .map for parallel promises
 
@@ -23,11 +23,13 @@ const promises = instructores.map(instructor => new Promise(resolve => setTimeou
   () => resolve(instructor),
   delay
 )));
-
+ 
 console.log(promises);
 
 Promise.all(promises)
   .then(values => {
-    console.log(values);
+    console.log(values) ;
   })
+
+
 

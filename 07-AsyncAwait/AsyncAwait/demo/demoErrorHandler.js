@@ -18,6 +18,7 @@ const readFilePromise = (archivo) => {
         //throw new Error("Error");
         return "Lectura exitosa";
       })
+      .then(result=>console.log(result))
       .catch(err => {
         console.log("Error asíncrono: ", err);
         return "Error en lectura";
@@ -26,10 +27,11 @@ const readFilePromise = (archivo) => {
     console.log("Error sincrono: ", err);
   }
 }
-
 readFilePromise('archivo.txt');
 
-const readFileAsync = async(archivo) => {
+
+
+/* const readFileAsync = async(archivo) => {
   try {
     // throw new Error("Error");
     console.log("Log async file: ", await promisifiedReadFile(archivo));
@@ -39,5 +41,5 @@ const readFileAsync = async(archivo) => {
   }
 }
 
-readFileAsync('archivo.txt');
+readFileAsync('archivo.txt'); */
 // readFileAsync('archivos.txt'); // Para simular error asíncrono en async version

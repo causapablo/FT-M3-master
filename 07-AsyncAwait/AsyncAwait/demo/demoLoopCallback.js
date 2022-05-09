@@ -10,7 +10,7 @@ async function henryAwait() {
     );
     console.log(name);
   });
-  console.log("Gracias vuelvan pronto");
+  console.log("Gracias vuelva prontos");
 }
 
 henryAwait();

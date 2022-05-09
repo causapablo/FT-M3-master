@@ -29,7 +29,12 @@ async function asyncCallNoResponse() {
 
 var p1 = asyncCallSuccessPromise();
 var p2 = asyncCallSuccessNoPromise();
-var p3 = asyncCallError();
-var p4 = asyncCallNoResponse();
+
+/* var p3 = asyncCallError();
+var p4 = asyncCallNoResponse(); */
 
 // Ver p1, p2, p3 y p4 en la consola luego de pasado 2 segundos
+console.log(p1);
+p1.then(data=>console.log(data));
+console.log(p2);
+
