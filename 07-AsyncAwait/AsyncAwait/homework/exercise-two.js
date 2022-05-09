@@ -143,7 +143,6 @@ async function problemD() {
    *    hayan terminado)
    *
    */
-
   var filenames = [1, 2, 3, 4, 5, 6, 7, 8].map(function (n) {
     return 'poem-two/' + 'stanza-0' + n + '.txt';
   });
@@ -165,13 +164,9 @@ async function problemD() {
       console.log('-- D. callback version done --');
     }
   ); */
-
   // AsyncAwait version
 
   await Promise.mapSeries(filenames, (file) => readAsync(file))
     .catch(err => magenta(err))
     .finally(algo=>console.log('done'))
-
-
-  
 }
